@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.gradient-bg {
+    background: linear-gradient(to right, lightgreen,skyblue);
+  }
+
+  body {
+    height: 90vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+  }
