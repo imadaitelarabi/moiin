@@ -29,12 +29,14 @@ class GenerateScoreReportPrompt:  # Replace GenerateScoreReport with the name of
                     {{
                     "summary": "تشير تقييماتك العامة للصحة العقلية بناءً على الأسئلة والأجوبة المقدمة إلى...",
                     "nextSteps": "لمواصلة رحلتك نحو صحة عقلية أفضل، نقترح...",
+                    "score:6
                   
                     }}
 
                     
 
-
+                      Rules: 
+                      Only and Only Return an object, nothing else
             User Informations: {data}
         """
         return prompt.format(data=data)

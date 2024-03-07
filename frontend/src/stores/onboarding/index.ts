@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 
 export const useOnboardingStore = defineStore({
   id: 'onboarding',
@@ -30,27 +29,31 @@ export const useOnboardingStore = defineStore({
       }
     },
 
-  async createVisitor() {
-    const config = useRuntimeConfig()
-    try {
-      const response = await axios.post(config.public.apiUrl + '/api/visitor/create', {
+    createVisitor() {
+      const visitor = {
         nationality: this.nationality,
         gender: this.gender,
         age: this.age,
-      });
+      };
 
-      if (response.status !== 200) {
-        console.log(response)
+      if (process.client) {
+        localStorage.setItem('visitor', JSON.stringify(visitor));
+      }
+      this.registered = true;
+    },
+
+    checkVisitor() {
+      let visitor;
+      if (process.client) {
+        visitor = JSON.parse(localStorage.getItem('visitor'));
       }
 
-      const data = response.data;
-      this.registered = true;
-      return data;
-    } catch (error) {
-      console.error('There was an error!', error);
+      if (visitor) {
+        this.registered = true;
+        this.nationality = visitor.nationality;
+        this.gender = visitor.gender;
+        this.age = visitor.age;
+      }
     }
-  }
-
-
   }
 })

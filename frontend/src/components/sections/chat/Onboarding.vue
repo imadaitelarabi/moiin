@@ -4,10 +4,10 @@
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <OnboardingNationality v-if="onboarding.showNationality"  @nextStep="onboarding.next"/>
-                <OnboardingGender v-if="onboarding.showGender"  @nextStep="onboarding.next" />
-                <OnboardingAge v-if="onboarding.showAge"  @nextStep="onboarding.next" />
-                <OnboardingSuccess v-if="onboarding.showSuccess" @register="onboarding.registerUser"/>
+                <OnboardingNationality v-if="!onboarding.registered && onboarding.showNationality"  @nextStep="onboarding.next"/>
+                <OnboardingGender v-if="!onboarding.registered && onboarding.showGender"  @nextStep="onboarding.next" />
+                <OnboardingAge v-if="!onboarding.registered && onboarding.showAge"  @nextStep="onboarding.next" />
+                <OnboardingSuccess v-if="onboarding.registered || onboarding.showSuccess" @register="onboarding.registerUser"/>
             </div>
         </div>
     </div>
@@ -17,4 +17,7 @@
 import { useOnboardingStore } from '@/stores/onboarding/index'
 
 const onboarding = useOnboardingStore()
+onboarding.checkVisitor()
+
 </script>
+
