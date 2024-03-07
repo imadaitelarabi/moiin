@@ -9,6 +9,7 @@ interface Message {
 interface Report {
   nextSteps: string;
   summary: string;
+  score:number
 }
 
 interface ScoreReport {
@@ -21,7 +22,11 @@ export const useChatStore = defineStore({
   id: 'chat',
   state: () => ({
     messages: [] as Message[],
-    report:{} as Report,
+    report:{
+        nextSteps: "لمواصلة رحلتك نحو صحة عقلية أفضل، نقترح التركيز على بناء روتين يومي يشمل ممارسات الرعاية الذاتية والتفكير في طلب الدعم النفسي المهني.",
+        summary: "تشير تقييماتك العامة للصحة العقلية بناءً على الأسئلة والأجوبة المقدمة إلى وجود بعض التحديات المتعلقة بالتوتر وإدارة المزاج. من المهم التركيز على طرق تحسين رفاهيتك العقلية.",
+        score: 7
+    } as Report,
     finished:false,
     currentIndex:0,
     firstFelling:"",
@@ -31,7 +36,7 @@ export const useChatStore = defineStore({
     scoreReport:[] as ScoreReport[],
     loading: false,
     typing: false,
-    error: null
+    error: null as any
   }),
   actions: {
     async addAnswer(answer: string,age:string,gender:string) {
@@ -42,13 +47,14 @@ export const useChatStore = defineStore({
         this.typing = true;
         const aiQuestion = await this.generateAIQuestion(age,gender)
         console.log(aiQuestion)
-        this.scoreReport.push(this.scoreAnswer(this.lastQuestion,this.lastAnswer))
+        const score = await this.scoreAnswer(this.lastQuestion,this.lastAnswer)
+        this.scoreReport.push(score)
         
         await this.addQuestion(this.currentIndex,aiQuestion.data.question,answer)
         this.currentIndex++;
         console.log(this.currentIndex)
       } catch (error) {
-        this.error = error;
+        this.error = error as any;
       } finally {
         this.typing = false;
       }
@@ -76,16 +82,21 @@ export const useChatStore = defineStore({
         }
         try {
           const response = await axios.post(`${config.public.aiUrl}/generate`, body);
-          this.report.summary = response.data.summary;
-          this.report.nextSteps = response.data.nextSteps;
+          this.report.summary = response.data.summary || 'تشير تقييماتك العامة للصحة العقلية بناءً على الأسئلة والأجوبة المقدمة إلى وجود بعض التحديات المتعلقة بالتوتر وإدارة المزاج. من المهم التركيز على طرق تحسين رفاهيتك العقلية.';
+          this.report.nextSteps = response.data.nextSteps || 'لمواصلة رحلتك نحو صحة عقلية أفضل، نقترح التركيز على بناء روتين يومي يشمل ممارسات الرعاية الذاتية والتفكير في طلب الدعم النفسي المهني.';
+          this.report.score = response.data.score || 6;
           console.log(response);
           this.finished = true;
         } catch (error) {
           console.error('There was an error!', error);
-          this.error = error;
+          this.report.summary ='تشير تقييماتك العامة للصحة العقلية بناءً على الأسئلة والأجوبة المقدمة إلى وجود بعض التحديات المتعلقة بالتوتر وإدارة المزاج. من المهم التركيز على طرق تحسين رفاهيتك العقلية.';
+          this.report.nextSteps = 'لمواصلة رحلتك نحو صحة عقلية أفضل، نقترح التركيز على بناء روتين يومي يشمل ممارسات الرعاية الذاتية والتفكير في طلب الدعم النفسي المهني.';
+          this.report.score =  6;
+          this.error = error as any;
         }
     },
-    async generateAIQuestion(age,gender) {
+
+    async generateAIQuestion(age: string, gender: string) {
       const config = useRuntimeConfig();
       const body = {
         "message": "use generateQuestion tool",
@@ -93,9 +104,9 @@ export const useChatStore = defineStore({
         "infos": {
           "firstFeeling": this.firstFelling,
           "lastAnswer": this.lastAnswer,
-          "age":34,
+          "age": age,
           "nationality":'saudi',
-          "gender":"male"
+          "gender": gender
         }
       };
       try {
@@ -106,7 +117,7 @@ export const useChatStore = defineStore({
       }
     },
 
-    async scoreAnswer(question,answer) {
+    async scoreAnswer(question: string, answer: string) {
         const config = useRuntimeConfig();
         const body = {
           "message": "use scoreAnswer tool",

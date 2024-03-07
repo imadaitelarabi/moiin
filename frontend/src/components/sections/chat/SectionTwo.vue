@@ -17,9 +17,13 @@
         </div>
       </div>
       <div v-else>
-        <div class="p-4 bg-yellow-200 rounded-lg">
-          <h2>{{ chatStore.report.summary }}</h2>
-          <p>{{ chatStore.report.nextSteps }}</p>
+        <div class="p-4 rounded-lg text-center">
+          <img src="/logo.png" alt="Logo" class="mx-auto mb-4 h-8 w-auto" />
+          <h2 class="text-xl font-bold mb-2">ها هو تقييمك</h2>
+          <p class="text-sm mb-4">هنا تفاصيل تقييمك:</p>
+          <p class="mb-2">{{ chatStore.report.summary }}</p>
+          <p class="mb-2">{{ chatStore.report.nextSteps }}</p>
+          <p class="text-2xl font-bold">{{ chatStore.report.score }}</p>
         </div>
       </div>
     </div>
@@ -30,7 +34,7 @@
         @inputQues="sendMessage"
       />
     </div>
-    <div v-if="chatStore.error" class="p-4">
+    <div v-if="chatStore.error" class="p-4 flex justify-center">
       <ErrorComponent :error="chatStore.error" />
       <button @click="resetChat" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
         Reset
@@ -62,6 +66,14 @@ watch(() => chatStore.messages, () => {
   // Update the chatbox each new event
   
 }, { deep: true });
+
+
+watch(() => chatStore.error, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    console.error('An error occurred:', newVal);
+  }
+});
+
 </script>
 
 <style scoped>
