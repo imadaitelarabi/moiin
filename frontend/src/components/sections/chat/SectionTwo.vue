@@ -4,10 +4,10 @@
       <div v-if="!chatStore.finished">
         <div v-for="(message, index) in chatStore.messages" :key="index" class="mb-4 border-b-2">
           <div class="bg-green-200 p-2 rounded-lg text-right">
-            {{ message.question }}
-          </div>
-          <div v-if="message.answer" class="bg-blue-200 p-2 rounded-lg text-left mt-2">
             {{ message.answer }}
+          </div>
+          <div v-if="message.question" class="bg-blue-200 p-2 rounded-lg text-left mt-2">
+            {{ message.question }}
           </div>
         </div>
       </div>
@@ -29,13 +29,13 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+
 import { useChatStore } from '@/stores/chat';
 
 const chatStore = useChatStore();
 
 const sendMessage = (message) => {
-  chatStore.addQuestion(message);
+  chatStore.addAnswer(message);
 };
 
 watch(() => chatStore.messages, () => {

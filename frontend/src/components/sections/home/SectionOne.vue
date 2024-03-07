@@ -8,9 +8,15 @@
 
 <script setup>
 
+import { useChatStore } from '@/stores/chat';
+
+const chatStore = useChatStore();
 
 const handleInput = (value) => {
   // Add your function logic here
+
+  chatStore.firstFelling = value;
+  chatStore.addAnswer(value);
   navigateTo('/chat');
 }
 </script>

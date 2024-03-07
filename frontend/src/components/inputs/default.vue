@@ -39,6 +39,7 @@
       emitInput(question) {
         if (question.trim() !== '') {
           this.$emit('inputQues', question);
+          this.question = "";
         }
       }
     }

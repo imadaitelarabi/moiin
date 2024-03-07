@@ -9,31 +9,23 @@
 
 </template>
 
-<script>
+<script setup>
 import { useOnboardingStore } from '@/stores/onboarding/index'
+
 const onboarding = useOnboardingStore();
+const genders = ref([
+  { value: 'male', text: 'ذكر' },
+  { value: 'female', text: 'أنثى' },
+]);
 
-export default {
+const emit = defineEmits(['nextStep']);
 
-data() {
-return {
-  genders: [
-    { value: 'male', text: 'ذكر' },
-    { value: 'female', text: 'أنثى' },
+const nextStep = () => {
+  console.log('Kig');
+  emit('nextStep');
+};
 
-  ]
-}
-},
-methods: {
-nextStep() {
-    console.log('Kig')
-  this.$emit('nextStep');
-},
-
-setGender(gender) {
+const setGender = (gender) => {
   onboarding.gender = gender;
-}
-
-}
-}
+};
 </script>
