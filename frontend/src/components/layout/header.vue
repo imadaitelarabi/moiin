@@ -4,7 +4,7 @@
     <nav>
       <ul class="flex">
         <li class="mx-2"><a href="#">تقييمات</a></li>
-        <li class="mx-2"><a href="#">الاسالة الشائعة</a></li>
+        <li class="mx-2"><a href="#">الأسئلة الشائعة</a></li>
         <li class="mx-2"><a href="#">تواصل معنا</a></li>
         <li class="mx-2"><a href="#">رسالتنا</a></li>
       </ul>
