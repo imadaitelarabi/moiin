@@ -2,8 +2,8 @@
     
   <section class="flex flex-row items-center justify-center  ">
     <div class=" text-black  text-right p-4 rounded-lg w-[100%]">
-        <h1 class="text-2xl text-green-500">لماذا توجد مُعين ؟</h1>
-        <h2 class="text-4xl">بناء نظام رعاية صحي نفسي رائد عالمياً محوره الانسان</h2>
+        <h1 class="text-2xl text-green-500">لماذا يوجد مُعين ؟</h1>
+        <h2 class="text-4xl">بناء نظام رعاية صحي نفسي رائد عالمياً محوره الإنسان</h2>
     </div>
     <CardsDefault class=""
       cardPadding="20px"
