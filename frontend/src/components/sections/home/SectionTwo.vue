@@ -20,6 +20,6 @@
 
 <style scoped>
 section {
-  @apply bg-white;
+  @apply bg-white text-white;
 }
 </style>
