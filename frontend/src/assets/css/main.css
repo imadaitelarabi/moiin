@@ -4,7 +4,7 @@
 
 
 .gradient-bg {
-    background: linear-gradient(to right, lightgreen,skyblue);
+    background: linear-gradient(to right, skyblue,lightgreen);
   }
 
   body {
